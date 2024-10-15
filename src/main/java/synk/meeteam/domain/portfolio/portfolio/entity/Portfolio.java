@@ -107,6 +107,9 @@ public class Portfolio extends BaseEntity {
     @ColumnDefault("'ALIVE'")
     private DeleteStatus deleteStatus = DeleteStatus.ALIVE;
 
+    @ColumnDefault("1")
+    private long version = 1;
+
     @Builder
     public Portfolio(Long id, String title, String description, String content, LocalDate proceedStart,
                      LocalDate proceedEnd,
