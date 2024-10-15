@@ -54,7 +54,8 @@ public class RecruitmentApplicantCustomRepositoryImpl implements RecruitmentAppl
                         recruitmentApplicant.applicant.name, recruitmentApplicant.applicant.gpa,
                         recruitmentApplicant.applicant.university.name, recruitmentApplicant.applicant.department.name,
                         getMainMail, recruitmentApplicant.applicant.admissionYear,
-                        recruitmentApplicant.role.name, recruitmentApplicant.comment))
+                        recruitmentApplicant.role.name, recruitmentApplicant.comment,
+                        recruitmentApplicant.applicant.imgVersion))
                 .from(recruitmentApplicant)
                 .leftJoin(recruitmentApplicant.applicant, user)
                 .leftJoin(recruitmentApplicant.recruitmentPost, recruitmentPost)
