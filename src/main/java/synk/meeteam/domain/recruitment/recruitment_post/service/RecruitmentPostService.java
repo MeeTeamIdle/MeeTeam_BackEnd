@@ -106,7 +106,8 @@ public class RecruitmentPostService {
         List<SimpleRecruitmentPostDto> contents = postVos.stream()
                 .map((postVo) -> {
                     String writerEncryptedId = Encryption.encryptLong(postVo.getWriterId());
-                    String imageUrl = cloudFrontService.getSignedUrl(S3FilePath.USER, postVo.getWriterProfileImg());
+                    String imageUrl = cloudFrontService.getSignedUrl(S3FilePath.USER, postVo.getWriterProfileImg(),
+                            postVo.getWriterVersion());
                     return simpleRecruitmentPostMapper.toSimpleRecruitmentPostDto(postVo, writerEncryptedId, imageUrl);
                 }).toList();
 
@@ -138,7 +139,8 @@ public class RecruitmentPostService {
         List<SimpleRecruitmentPostDto> contents = postVos.stream()
                 .map((postVo) -> {
                     String writerEncryptedId = Encryption.encryptLong(postVo.getWriterId());
-                    String imageUrl = cloudFrontService.getSignedUrl(S3FilePath.USER, postVo.getWriterProfileImg());
+                    String imageUrl = cloudFrontService.getSignedUrl(S3FilePath.USER, postVo.getWriterProfileImg(),
+                            postVo.getWriterVersion());
                     return simpleRecruitmentPostMapper.toSimpleRecruitmentPostDto(postVo, writerEncryptedId, imageUrl);
                 }).toList();
         return new PaginationDto<>(contents, pageInfo);

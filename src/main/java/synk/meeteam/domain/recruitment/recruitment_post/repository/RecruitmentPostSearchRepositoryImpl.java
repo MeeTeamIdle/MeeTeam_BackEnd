@@ -65,7 +65,8 @@ public class RecruitmentPostSearchRepositoryImpl implements RecruitmentPostSearc
                                 recruitmentPost.deadline,
                                 isBookmark(userDomain),
                                 recruitmentPost.createdAt,
-                                recruitmentPost.isClosed
+                                recruitmentPost.isClosed,
+                                writer.imgVersion
                         )
                 )
                 .distinct()
