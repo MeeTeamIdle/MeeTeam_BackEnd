@@ -145,6 +145,7 @@ public class Portfolio extends BaseEntity {
         this.role = role;
         this.fileOrder = fileOrder;
         this.mainImageFileName = mainImageFileName;
+        version++;
     }
 
     public boolean isAllViewAble(Long userId) {
