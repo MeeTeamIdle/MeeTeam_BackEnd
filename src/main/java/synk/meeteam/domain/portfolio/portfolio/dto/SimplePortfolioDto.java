@@ -23,12 +23,15 @@ public class SimplePortfolioDto {
     private boolean isPinned;
     @Schema(description = "핀순서", example = "1")
     private int pinOrder;
+    @Schema(description = "버전", example = "1")
+    private Long version;
 
     @Builder
     @QueryProjection
     public SimplePortfolioDto(Long id, String title, String mainImageUrl, String field, String role,
                               boolean isPinned,
-                              int pinOrder) {
+                              int pinOrder,
+                              Long version) {
         this.id = id;
         this.title = title;
         this.mainImageUrl = mainImageUrl;
@@ -36,5 +39,6 @@ public class SimplePortfolioDto {
         this.role = role;
         this.isPinned = isPinned;
         this.pinOrder = pinOrder;
+        this.version = version;
     }
 }

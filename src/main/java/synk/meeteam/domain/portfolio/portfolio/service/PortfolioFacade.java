@@ -56,8 +56,8 @@ public class PortfolioFacade {
 
         List<Skill> skills = portfolioSkillService.getPortfolioSkill(portfolio);
         List<PortfolioLink> links = portfolioLinkService.getPortfolioLink(portfolio);
-        String zipFileUrl = cloudFrontService.getSignedUrl(S3FilePath.getPortfolioPath(user.getEncryptUserId()),
-                portfolio.getZipFileName());
+        String zipFileUrl = cloudFrontService.getSignedUrl(S3FilePath.getPortfolioPath(writer.getEncryptUserId()),
+                portfolio.getZipFileName(), portfolio.getVersion());
         List<Portfolio> otherPinPortfolios = getUserPortfolio(portfolio);
         return new GetPortfolioResponseDto(
                 portfolio.getTitle(),
@@ -74,8 +74,8 @@ public class PortfolioFacade {
                 links.stream().map(link -> new PortfolioLinkDto(link.getUrl(), link.getDescription())).toList(),
                 otherPinPortfolios.stream().map(otherPortfolio ->
                         portfolioMapper.toGetProfilePortfolioDto(otherPortfolio,
-                                cloudFrontService.getSignedUrl(S3FilePath.getPortfolioPath(user.getEncryptUserId()),
-                                        otherPortfolio.getMainImageFileName()))).toList(),
+                                cloudFrontService.getSignedUrl(S3FilePath.getPortfolioPath(writer.getEncryptUserId()),
+                                        otherPortfolio.getMainImageFileName(), otherPortfolio.getVersion()))).toList(),
                 portfolio.isWriter(userId),
                 writer.getNickname()
         );
