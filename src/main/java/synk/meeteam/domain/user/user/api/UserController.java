@@ -82,7 +82,7 @@ public class UserController implements UserApi {
     @Override
     @GetMapping("/profile/image")
     public ResponseEntity<GetProfileImageResponseDto> getProfileImage(@AuthUser User user) {
-        String profileImgUrl = cloudFrontService.getSignedUrl(USER, user.getProfileImgFileName());
+        String profileImgUrl = cloudFrontService.getSignedUrl(USER, user.getProfileImgFileName(), user.getImgVersion());
         return ResponseEntity.ok(GetProfileImageResponseDto.of(profileImgUrl));
     }
 
