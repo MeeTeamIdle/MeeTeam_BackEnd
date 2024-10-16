@@ -50,7 +50,7 @@ public class RecruitmentCommentServiceTest {
         doReturn(recruitmentComments).when(recruitmentCommentRepository)
                 .findAllByRecruitmentId(recruitmentPost.getId());
 
-        doReturn("임시 url").when(cloudFrontService).getSignedUrl(any(), any());
+        doReturn("임시 url").when(cloudFrontService).getSignedUrl(any(), any(), any());
 
         // when
         List<GetCommentResponseDto> getCommentResponseDtos = recruitmentCommentService.getRecruitmentComments(

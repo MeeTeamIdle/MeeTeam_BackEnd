@@ -81,7 +81,7 @@ public class PortfolioServiceImpl implements PortfolioService {
                 pageable, user);
         userPortfolioDtos.getContent().forEach(userPortfolio -> {
             String imageUrl = cloudFrontService.getSignedUrl(S3FilePath.getPortfolioPath(user.getEncryptUserId()),
-                    userPortfolio.getMainImageUrl());
+                    userPortfolio.getMainImageUrl(), userPortfolio.getVersion());
             userPortfolio.setMainImageUrl(imageUrl);
         });
         SliceInfo pageInfo = new SliceInfo(page, size, userPortfolioDtos.hasNext());
@@ -95,7 +95,7 @@ public class PortfolioServiceImpl implements PortfolioService {
                 PageRequest.of(page - 1, size), user);
         myPortfolios.getContent().forEach(myPortfolio -> {
             String imageUrl = cloudFrontService.getSignedUrl(S3FilePath.getPortfolioPath(user.getEncryptUserId()),
-                    myPortfolio.getMainImageUrl());
+                    myPortfolio.getMainImageUrl(), myPortfolio.getVersion());
             myPortfolio.setMainImageUrl(imageUrl);
         });
         PageInfo pageInfo = new PageInfo(page, size, myPortfolios.getTotalElements(), myPortfolios.getTotalPages());

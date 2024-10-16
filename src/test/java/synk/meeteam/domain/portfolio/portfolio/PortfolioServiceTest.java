@@ -115,7 +115,7 @@ public class PortfolioServiceTest {
         //given
         doReturn(PortfolioFixture.createSlicePortfolioDtos()).when(portfolioRepository)
                 .findSlicePortfoliosByUserOrderByCreatedAtDesc(eq(PageRequest.of(0, 12)), any());
-        doReturn("url입니다.").when(cloudFrontService).getSignedUrl(any(), any());
+        doReturn("url입니다.").when(cloudFrontService).getSignedUrl(any(), any(), any());
         //when
         GetUserPortfolioResponseDto userAllPortfolios = portfolioService.getSliceMyAllPortfolio(1, 12,
                 User.builder().build());

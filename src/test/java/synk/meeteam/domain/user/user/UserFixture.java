@@ -82,7 +82,7 @@ public class UserFixture {
                 4.3,
                 2019,
                 List.of(
-                        new SimplePortfolioDto(1L, "Meeteam 팀을 만나다", "https://~", "개발", "백엔드개발자", true, 1)
+                        new SimplePortfolioDto(1L, "Meeteam 팀을 만나다", "https://~", "개발", "백엔드개발자", true, 1, 1L)
                 ),
                 List.of(
                         new GetProfileUserLinkDto("https://~~", "Link"),

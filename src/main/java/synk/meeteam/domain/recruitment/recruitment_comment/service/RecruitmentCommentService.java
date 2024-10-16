@@ -36,7 +36,8 @@ public class RecruitmentCommentService {
 
         for (RecruitmentCommentVO comment : commentVOs) {
             boolean isWriter = writerId.equals(comment.getUserId());
-            String profileImg = cloudFrontService.getSignedUrl(S3FilePath.USER, comment.getProfileImg());
+            String profileImg = cloudFrontService.getSignedUrl(S3FilePath.USER, comment.getProfileImg(),
+                    comment.getUserVersion());
             String commentWriterId = Encryption.encryptLong(comment.getUserId());
 
             if (comment.isParent()) {

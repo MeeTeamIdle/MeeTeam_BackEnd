@@ -3,7 +3,6 @@ package synk.meeteam.infra.aws.service;
 import static synk.meeteam.infra.aws.S3FilePath.USER;
 import static synk.meeteam.infra.aws.S3FilePath.getFileFullName;
 import static synk.meeteam.infra.aws.S3FilePath.getPortfolioPath;
-import static synk.meeteam.infra.aws.S3FilePath.getZipFileFullName;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -13,12 +12,10 @@ import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import software.amazon.awssdk.services.cloudfront.CloudFrontUtilities;
 import software.amazon.awssdk.services.cloudfront.model.CannedSignerRequest;
 import software.amazon.awssdk.services.cloudfront.url.SignedUrl;
@@ -28,6 +25,9 @@ import synk.meeteam.global.util.Encryption;
 import synk.meeteam.infra.aws.exception.AwsException;
 import synk.meeteam.infra.aws.exception.AwsExceptionType;
 import synk.meeteam.infra.aws.service.vo.SignedUrlVO;
+import synk.meeteam.infra.aws.strategy.NoPortfolioStrategy;
+import synk.meeteam.infra.aws.strategy.PortfolioExistStrategy;
+import synk.meeteam.infra.aws.strategy.PortfolioStrategy;
 
 @Component
 @RequiredArgsConstructor
@@ -41,10 +41,10 @@ public class CloudFrontService {
     @Value("${aws-property.key-pair-id}")
     private String keyPairId;
 
-    public String getSignedUrl(String path, String fileName) {
+    public String getSignedUrl(String path, String fileName, long version) {
         try {
             String resourcePath = getEncodedResourcePath(path, fileName);
-            String cloudFrontUrl = "https://" + distributionDomain + "/" + resourcePath;
+            String cloudFrontUrl = String.format("https://%s/%s?v=%d", distributionDomain, resourcePath, version);
             Instant expirationTime = Instant.now().plus(PRE_SIGNED_URL_EXPIRE_SECONDS, ChronoUnit.SECONDS);
             Path keyPath = Paths.get(privateKeyFilePath);
             CloudFrontUtilities cloudFrontUtilities = CloudFrontUtilities.create();
@@ -64,29 +64,25 @@ public class CloudFrontService {
         }
     }
 
-    public SignedUrlVO getProfileSignedUrl(String extension, Long userId) {
+    public SignedUrlVO getProfileSignedUrl(String extension, Long userId, long version) {
         String filename = getFileFullName(Encryption.encryptLong(userId), extension);
-        String url = getSignedUrl(USER, filename);
+        String url = getSignedUrl(USER, filename, version);
         return SignedUrlVO.of(ServiceType.PROFILE, filename, url);
     }
 
     public List<SignedUrlVO> getPortfolioSignedUrl(String thumbnailExtension, Portfolio portfolio, Long userId) {
+        PortfolioStrategy strategy =
+                (portfolio != null) ? new PortfolioExistStrategy(portfolio) : new NoPortfolioStrategy();
 
-        String zipFileName = getZipFileFullName(UUID.randomUUID().toString());
-        String thumbNailFileName = UUID.randomUUID().toString();
-        if (portfolio != null) {
-            zipFileName = portfolio.getZipFileName();
-            thumbNailFileName = StringUtils.stripFilenameExtension(portfolio.getMainImageFileName());
-        }
-        thumbNailFileName = getFileFullName(thumbNailFileName, thumbnailExtension);
-
-        String encryptedId = Encryption.encryptLong(userId);
-        String zipUrl = getSignedUrl(getPortfolioPath(encryptedId), zipFileName);
-        String thumbNailUrl = getSignedUrl(getPortfolioPath(encryptedId), thumbNailFileName);
+        String portfolioPath = getPortfolioPath(Encryption.encryptLong(userId));
+        String zipUrl = getSignedUrl(portfolioPath, strategy.getZipFileName(), strategy.getVersion());
+        String thumbNailUrl = getSignedUrl(portfolioPath, strategy.getThumbnailFileName(thumbnailExtension),
+                strategy.getVersion());
 
         return List.of(
-                SignedUrlVO.of(ServiceType.PORTFOLIOS, zipFileName, zipUrl),
-                SignedUrlVO.of(ServiceType.THUMBNAIL_PORTFOLIO, thumbNailFileName, thumbNailUrl)
+                SignedUrlVO.of(ServiceType.PORTFOLIOS, strategy.getZipFileName(), zipUrl),
+                SignedUrlVO.of(ServiceType.THUMBNAIL_PORTFOLIO, strategy.getThumbnailFileName(thumbnailExtension),
+                        thumbNailUrl)
         );
     }
 

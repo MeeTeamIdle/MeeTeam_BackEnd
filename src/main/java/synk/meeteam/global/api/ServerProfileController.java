@@ -26,7 +26,8 @@ public class ServerProfileController {
                                                     @RequestParam(name = "file-name") String fileName) {
         String extension = StringUtils.getFilenameExtension(fileName);
 
-        return ResponseEntity.ok().body(cloudFrontService.getProfileSignedUrl(extension, user.getId()));
+        return ResponseEntity.ok()
+                .body(cloudFrontService.getProfileSignedUrl(extension, user.getId(), user.getImgVersion()));
     }
 
     @GetMapping("/portfolio/signed-url")
@@ -35,11 +36,7 @@ public class ServerProfileController {
                                                           @RequestParam(name = "portfolio", required = false) Long portfolioId
     ) {
         String thumbnailExtension = StringUtils.getFilenameExtension(fileName);
-        Portfolio portfolio = null;
-
-        if (portfolioId != null) {
-            portfolio = portfolioService.getPortfolio(portfolioId);
-        }
+        Portfolio portfolio = portfolioId != null ? portfolioService.getPortfolio(portfolioId) : null;
 
         return ResponseEntity.ok().body(
                 cloudFrontService.getPortfolioSignedUrl(thumbnailExtension, portfolio, user.getId())

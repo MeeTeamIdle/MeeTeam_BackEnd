@@ -50,8 +50,8 @@ public class PortfolioFixture {
     public static Slice<SimplePortfolioDto> createSlicePortfolioDtos() {
         return new SliceImpl<>(
                 List.of(
-                        new SimplePortfolioDto(1L, "타이틀1", "이미지url", "개발", "개발자", true, 1),
-                        new SimplePortfolioDto(2L, "타이틀2", "이미지url", "개발", "개발자", true, 2)
+                        new SimplePortfolioDto(1L, "타이틀1", "이미지url", "개발", "개발자", true, 1, 1L),
+                        new SimplePortfolioDto(2L, "타이틀2", "이미지url", "개발", "개발자", true, 2, 1L)
                 ),
                 PageRequest.of(1, 12),
                 false
@@ -61,8 +61,8 @@ public class PortfolioFixture {
     public static GetUserPortfolioResponseDto createUserAllPortfolios() {
         return new GetUserPortfolioResponseDto(
                 List.of(
-                        new SimplePortfolioDto(1L, "타이틀1", "이미지url", "개발", "개발자", true, 1),
-                        new SimplePortfolioDto(2L, "타이틀2", "이미지url", "개발", "개발자", true, 2)
+                        new SimplePortfolioDto(1L, "타이틀1", "이미지url", "개발", "개발자", true, 1, 1L),
+                        new SimplePortfolioDto(2L, "타이틀2", "이미지url", "개발", "개발자", true, 2, 1L)
                 ),
                 new SliceInfo(1, 12, false)
         );

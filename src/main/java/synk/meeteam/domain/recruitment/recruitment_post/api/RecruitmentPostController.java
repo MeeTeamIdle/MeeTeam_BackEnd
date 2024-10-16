@@ -133,7 +133,8 @@ public class RecruitmentPostController implements RecruitmentPostApi {
         }
 
         User writer = userService.findById(recruitmentPost.getCreatedBy());
-        String writerImgUrl = cloudFrontService.getSignedUrl(S3FilePath.USER, writer.getProfileImgFileName());
+        String writerImgUrl = cloudFrontService.getSignedUrl(S3FilePath.USER, writer.getProfileImgFileName(),
+                writer.getImgVersion());
 
         List<RecruitmentRole> recruitmentRoles = recruitmentRoleService.findByRecruitmentPostId(postId);
 

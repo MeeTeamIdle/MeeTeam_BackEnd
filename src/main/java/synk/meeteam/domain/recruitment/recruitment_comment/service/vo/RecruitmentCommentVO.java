@@ -17,12 +17,14 @@ public class RecruitmentCommentVO {
     long groupNumber;
     long groupOrder;
     boolean isDeleted;
+    Long userVersion;
 
     @Builder
     @QueryProjection
     public RecruitmentCommentVO(Long id, Long userId, String nickname, String profileImg, String content,
                                 LocalDateTime createAt,
-                                boolean isParent, long groupNumber, long groupOrder, boolean isDeleted) {
+                                boolean isParent, long groupNumber, long groupOrder, boolean isDeleted,
+                                Long userVersion) {
         this.id = id;
         this.userId = userId;
         this.nickname = nickname;
@@ -33,6 +35,7 @@ public class RecruitmentCommentVO {
         this.groupNumber = groupNumber;
         this.groupOrder = groupOrder;
         this.isDeleted = isDeleted;
+        this.userVersion = userVersion;
     }
 
     public Long getUserId() {

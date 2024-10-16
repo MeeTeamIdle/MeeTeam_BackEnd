@@ -68,7 +68,8 @@ public class PortfolioCustomRepositoryImpl implements PortfolioCustomRepository 
                         portfolio.field.name,
                         portfolio.role.name,
                         portfolio.isPin,
-                        portfolio.pinOrder
+                        portfolio.pinOrder,
+                        portfolio.version
                 ))
                 .from(portfolio)
                 .leftJoin(portfolio.role, role)

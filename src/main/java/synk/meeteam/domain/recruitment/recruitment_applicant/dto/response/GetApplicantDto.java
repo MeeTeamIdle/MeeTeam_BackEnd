@@ -32,12 +32,14 @@ public class GetApplicantDto {
     String applyRoleName;
     @Schema(description = "전하는 말", example = "저 관심있어용")
     String message;
+    @Schema(description = "버전", example = "1")
+    Long version;
 
     @QueryProjection
     public GetApplicantDto(Long applicantId, String userId, String nickname, String profileImg, String name,
-                           double score, String universityName, String departmentName, String email,
-                           int year,
-                           String applyRoleName, String message) {
+                           double score,
+                           String universityName, String departmentName, String email, int year, String applyRoleName,
+                           String message, Long version) {
         this.applicantId = applicantId;
         this.userId = userId;
         this.nickname = nickname;
@@ -50,6 +52,7 @@ public class GetApplicantDto {
         this.year = year;
         this.applyRoleName = applyRoleName;
         this.message = message;
+        this.version = version;
     }
 
     public void setEncryptedUserIdAndProfileImg(String userId, String profileImg) {

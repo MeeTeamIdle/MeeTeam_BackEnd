@@ -163,6 +163,9 @@ public class User extends BaseTimeEntity {
     @ColumnDefault("1")
     private boolean isFirstApplicantAccess = true;
 
+    @ColumnDefault("1")
+    private long imgVersion = 1;
+
     public User(String platformId) {
         this.platformId = platformId;
     }
@@ -220,6 +223,7 @@ public class User extends BaseTimeEntity {
         this.gpa = gpa;
         this.maxGpa = maxGpa;
         this.interestRole = role;
+        this.imgVersion++;
 
         if (subEmail == null && !isUniversityMainEmail) {
             this.isUniversityMainEmail = true;
@@ -302,7 +306,7 @@ public class User extends BaseTimeEntity {
         this.isFirstApplicantAccess = false;
     }
 
-    public String getMainEmail(){
+    public String getMainEmail() {
         return isUniversityMainEmail ? universityEmail : subEmail;
     }
 }
