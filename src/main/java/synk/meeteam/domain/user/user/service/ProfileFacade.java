@@ -71,7 +71,8 @@ public class ProfileFacade {
     public GetProfileResponseDto readProfile(User user, String encryptedId) {
         Long userId = Encryption.decryptLong(encryptedId);
         ProfileDto openProfile = userService.getOpenProfile(userId, user);
-        String profileImgUrl = cloudFrontService.getSignedUrl(S3FilePath.USER, openProfile.profileImgFileName());
+        String profileImgUrl = cloudFrontService.getSignedUrl(S3FilePath.USER, openProfile.profileImgFileName(),
+                user.getImgVersion());
         List<GetProfileUserLinkDto> links = getProfileLinks(userId);
         List<GetProfileAwardDto> awards = getProfileAwards(userId);
         List<SimplePortfolioDto> portfolios = getProfilePortfolios(userId, encryptedId);
@@ -96,7 +97,7 @@ public class ProfileFacade {
         return portfolios.stream().map((portfolio) -> {
             String imageUrl = cloudFrontService.getSignedUrl(
                     S3FilePath.getPortfolioPath(encryptedId),
-                    portfolio.getMainImageFileName());
+                    portfolio.getMainImageFileName(), portfolio.getVersion());
             return portfolioMapper.toGetProfilePortfolioDto(portfolio, imageUrl);
         }).toList();
     }

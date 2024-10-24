@@ -21,13 +21,15 @@ public class RecruitmentPostVo {
     private Boolean isBookmarked;
     private LocalDateTime createdAt;
     private Boolean isClosed;
+    private Long writerVersion;
 
     @Builder
     @QueryProjection
     public RecruitmentPostVo(Long id, String title, Category category, Scope scope, Long writerId,
                              String writerNickname,
                              String writerProfileImg, LocalDate deadline, Boolean isBookmarked, LocalDateTime createdAt,
-                             Boolean isClosed) {
+                             Boolean isClosed,
+                             Long writerVersion) {
         this.id = id;
         this.title = title;
         this.category = category;
@@ -39,5 +41,6 @@ public class RecruitmentPostVo {
         this.isBookmarked = isBookmarked;
         this.createdAt = createdAt;
         this.isClosed = isClosed;
+        this.writerVersion = writerVersion;
     }
 }

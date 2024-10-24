@@ -108,7 +108,7 @@ public class RecruitmentApplicantService {
                 roleId, pageable);
         applicantDtos.stream().forEach(applicant -> applicant.setEncryptedUserIdAndProfileImg(
                 Encryption.encryptLong(Long.parseLong(applicant.getUserId())),
-                cloudFrontService.getSignedUrl(USER, applicant.getProfileImg())));
+                cloudFrontService.getSignedUrl(USER, applicant.getProfileImg(), applicant.getVersion())));
 
         SliceInfo pageInfo = new SliceInfo(page, size, applicantDtos.hasNext());
         return new GetApplicantResponseDto(applicantDtos.getContent(), pageInfo);

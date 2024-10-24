@@ -22,7 +22,7 @@ public class RecruitmentCommentRepositoryCustomImpl implements RecruitmentCommen
                         user.nickname,
                         user.profileImgFileName, recruitmentComment.content, recruitmentComment.createdAt,
                         recruitmentComment.isParent, recruitmentComment.groupNumber, recruitmentComment.groupOrder,
-                        recruitmentComment.isDeleted))
+                        recruitmentComment.isDeleted, user.imgVersion))
                 .from(recruitmentComment)
                 .leftJoin(user)
                 .on(recruitmentComment.createdBy.eq(user.id))

@@ -54,7 +54,8 @@ public class RecruitmentManagementRepositoryImpl implements RecruitmentManagemen
                                 manageType == ManageType.BOOKMARKED ? Expressions.asBoolean(true)
                                         : RecruitmentExpressionUtils.isBookmark(userDomain),
                                 recruitmentPost.createdAt,
-                                recruitmentPost.isClosed
+                                recruitmentPost.isClosed,
+                                writer.imgVersion
                         )
                 )
                 .distinct()

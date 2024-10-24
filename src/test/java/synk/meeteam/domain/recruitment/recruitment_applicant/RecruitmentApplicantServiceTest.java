@@ -434,10 +434,10 @@ public class RecruitmentApplicantServiceTest {
 
         GetApplicantDto dto1 = new GetApplicantDto(1L, "1", "닉네임입니다1",
                 "이미지입니다1", "이름입니다1", 4.3, "광운대학교", "소프트웨어학부", "qwer123@naver.com", 2018,
-                "백엔드개발자", "전하는 말입니다1");
+                "백엔드개발자", "전하는 말입니다1", 1L);
         GetApplicantDto dto2 = new GetApplicantDto(2L, "2", "닉네임입니다2",
                 "이미지입니다2", "이름입니다2", 4.2, "광운대학교", "소프트웨어학부", "qwer456@naver.com", 2018,
-                "백엔드개발자", "전하는 말입니다2");
+                "백엔드개발자", "전하는 말입니다2", 1L);
 
         doReturn(new SliceImpl<>(
                 List.of(dto1, dto2),
@@ -445,7 +445,7 @@ public class RecruitmentApplicantServiceTest {
                 false
         )).when(recruitmentApplicantRepository).findByPostIdAndRoleId(any(), any(), any());
 
-        doReturn("이미지입니다").when(cloudFrontService).getSignedUrl(any(), any());
+        doReturn("이미지입니다").when(cloudFrontService).getSignedUrl(any(), any(), any());
 
         try (MockedStatic<Encryption> utilities = Mockito.mockStatic(Encryption.class)) {
             utilities.when(() -> Encryption.encryptLong(any())).thenReturn("1234");
