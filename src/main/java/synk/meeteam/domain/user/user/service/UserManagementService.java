@@ -40,7 +40,6 @@ public class UserManagementService {
     // 구인 관련
     private final RecruitmentPostRepository recruitmentPostRepository;
     private final RecruitmentRoleRepository recruitmentRoleRepository;
-    private final RecruitmentRoleSkillRepository recruitmentRoleSkillRepository;
     private final RecruitmentTagRepository recruitmentTagRepository;
     private final RecruitmentCommentRepository recruitmentCommentRepository;
     private final RecruitmentApplicantRepository recruitmentApplicantRepository;
@@ -52,11 +51,15 @@ public class UserManagementService {
     public void deleteUser(User user) {
         List<Long> postIds = recruitmentPostRepository.findAllByCreatedBy(user.getId()).stream()
                 .map(RecruitmentPost::getId).toList();
-        deleteRecruitmentPosts(postIds);
+        if(!postIds.isEmpty()) {
+            deleteRecruitmentPosts(postIds);
+        }
 
         List<Long> portfolioIds = portfolioRepository.findAllByCreatedBy(user.getId())
                 .stream().map(Portfolio::getId).toList();
-        deletePortfolios(portfolioIds);
+		if(!portfolioIds.isEmpty()){
+			deletePortfolios(portfolioIds);
+		}
 
         deleteProfile(user.getId());
         deleteRelatedUserData(user.getId());
