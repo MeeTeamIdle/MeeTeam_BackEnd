@@ -42,6 +42,9 @@ public class CloudFrontService {
     private String keyPairId;
 
     public String getSignedUrl(String path, String fileName, long version) {
+        if (fileName == null || fileName.isEmpty()) {
+            return null;
+        }
         try {
             String resourcePath = getEncodedResourcePath(path, fileName);
             String cloudFrontUrl = String.format("https://%s/%s?v=%d", distributionDomain, resourcePath, version);
