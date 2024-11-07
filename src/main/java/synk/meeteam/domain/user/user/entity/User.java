@@ -289,7 +289,8 @@ public class User extends BaseTimeEntity {
                 department.getName(),
                 maxGpa,
                 gpa,
-                admissionYear
+                admissionYear,
+                imgVersion
         );
     }
 

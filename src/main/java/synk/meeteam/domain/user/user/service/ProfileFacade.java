@@ -72,7 +72,7 @@ public class ProfileFacade {
         Long userId = Encryption.decryptLong(encryptedId);
         ProfileDto openProfile = userService.getOpenProfile(userId, user);
         String profileImgUrl = cloudFrontService.getSignedUrl(S3FilePath.USER, openProfile.profileImgFileName(),
-                user.getImgVersion());
+                openProfile.imgVersion());
         List<GetProfileUserLinkDto> links = getProfileLinks(userId);
         List<GetProfileAwardDto> awards = getProfileAwards(userId);
         List<SimplePortfolioDto> portfolios = getProfilePortfolios(userId, encryptedId);
