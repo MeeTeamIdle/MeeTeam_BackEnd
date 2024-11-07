@@ -19,6 +19,7 @@ public record ProfileDto(
         String department,
         Double maxGpa,
         Double gpa,
-        int admissionYear
+        int admissionYear,
+        long imgVersion
 ) {
 }
